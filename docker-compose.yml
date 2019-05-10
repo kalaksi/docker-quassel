@@ -1,0 +1,44 @@
+version: '2'
+services:
+  quassel-core:
+    image: kalaksi/quassel
+    restart: unless-stopped
+    ports:
+      - 4242:4242/tcp
+      - 113:10113/tcp
+    command:
+      - '--config-from-environment'
+      - '--configdir=/opt/quassel/config'
+      - '--port=4242'
+      - '--ident-daemon'
+      - '--ident-listen=::'
+      - '--strict-ident'
+      - '--ssl-cert=/opt/quassel/config/YOUCERT.crt'
+      - '--ssl-key=/opt/quassel/config/YOURCERTKEY.key'
+      - '--loglevel=Info'
+    volumes:
+      - quassel_config:/opt/quassel/config
+      # For LDAPS, if you're using self-signed certs, you'll need to mount additional certs.
+      # My "ca-certificates" container can help with that.
+      # - ca_certificates:/etc/ssl/certs:ro
+    environment:
+      # I seriously recommend PostgreSQL instead of SQLite
+      DB_BACKEND: PostgreSQL
+      AUTH_AUTHENTICATOR: LDAP
+      AUTH_LDAP_HOSTNAME: ldaps://ldap.yourdomain.invalid
+      AUTH_LDAP_PORT: '636'
+      AUTH_LDAP_BIND_DN: cn=XXX,dc=YOURDOMAIN,dc=INVALID
+      AUTH_LDAP_BIND_PASSWORD: XXX
+      AUTH_LDAP_BASE_DN: ou=XXX,ou=XXX,dc=YOURDOMAIN,dc=INVALID
+      AUTH_LDAP_FILTER: (memberOf=cn=XXX,ou=XXX,ou=XXX,dc=YOURDOMAIN,dc=INVALID)
+      AUTH_LDAP_UID_ATTRIBUTE: cn
+      DB_PGSQL_USERNAME: quassel
+      DB_PGSQL_PASSWORD: XXX
+      DB_PGSQL_HOSTNAME: localhost
+      DB_PGSQL_PORT: '5432'
+      DB_PGSQL_DATABASE: quassel
+
+volumes:
+  quassel_config: {}
+  # ca_certificates:
+  #   external: true
