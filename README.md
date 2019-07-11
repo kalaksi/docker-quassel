@@ -2,11 +2,6 @@
 - [Docker Hub repository](https://registry.hub.docker.com/u/kalaksi/quassel/)
 - [GitHub repository](https://github.com/kalaksi/docker-quassel)
 
-## THIS IS A TEST VERSION
-
-This is a new container I'm testing out.  
-It should work but I'm personally currently just testing it out and ironing out any issues.
-
 ## Why use this container?
 **Simply put, this container has been written with simplicity and security in mind.**
 
@@ -27,10 +22,11 @@ To remedy the situation, these images have been written with security, simplicit
 |Versioned tags           |✅    | Offer versioned tags for stability.|
 
 ## Running this container
-This container contains Quassel Core
+This container contains Quassel Core. 
 See ```docker-compose.yml``` in the source repository for details on how to run this container.
 
 ## Configuration
+Configuration happens through environment variables. 
 See ```Dockerfile``` and ```docker-compose.yml``` (<https://github.com/kalaksi/docker-quassel>) for usable environment variables.
 
 ## Supported tags
