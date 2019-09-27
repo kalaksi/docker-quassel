@@ -1,4 +1,4 @@
-FROM alpine:3.10.1 AS base
+FROM alpine:3.10.2 AS base
 
 LABEL maintainer="kalaksi@users.noreply.github.com"
 # Use a custom UID/GID instead of the default system UID which has a greater possibility
