@@ -1,5 +1,5 @@
 ## Repositories
-- [Docker Hub repository](https://registry.hub.docker.com/u/kalaksi/quassel/)
+- [Docker Hub repository](https://hub.docker.com/r/kalaksi/quassel/)
 - [GitHub repository](https://github.com/kalaksi/docker-quassel)
 
 ## Why use this container?
