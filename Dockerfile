@@ -1,7 +1,7 @@
 # Copyright (c) 2018 kalaksi@users.noreply.github.com.
 # This work is licensed under the terms of the MIT license. For a copy, see <https://opensource.org/licenses/MIT>.
 
-FROM alpine:3.10.3 AS base
+FROM alpine:3.11.3 AS base
 
 LABEL maintainer="kalaksi@users.noreply.github.com"
 # Use a custom UID/GID instead of the default system UID which has a greater possibility
