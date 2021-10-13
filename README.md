@@ -1,5 +1,6 @@
 ## Repositories
-- [Docker Hub repository](https://hub.docker.com/r/kalaksi/quassel/)
+- [GitLab repository](https://gitlab.com/kalaksi-containers/quassel/) (image: `registry.gitlab.com/kalaksi-containers/quassel`)
+- [Docker Hub repository](https://hub.docker.com/r/kalaksi/quassel/) (image: `docker.io/kalaksi/quassel`)
 - [GitHub repository](https://github.com/kalaksi/docker-quassel)
 
 ## Why use this container?
@@ -10,16 +11,17 @@ On top of that, overly complex shell scripts, monolithic designs and unofficial 
 
 To remedy the situation, these images have been written with security, simplicity and overall quality in mind.
 
-|Requirement              |Status|Details|
-|-------------------------|:----:|-------|
-|Don't run as root        |✅    | Never run as root unless necessary.|
-|Official base image      |✅    | |
-|Drop extra CAPabilities  |✅    | See ```docker-compose.yml``` |
-|No default passwords     |✅    | No static default passwords. That would make the container insecure by default. |
-|Support secrets-files    |❌    | (TODO: this is a priority) Support providing e.g. passwords via files instead of environment variables. |
-|Handle signals properly  |✅    | |
-|Simple Dockerfile        |✅    | No overextending the container's responsibilities. And keep everything in the Dockerfile if reasonable. |
-|Versioned tags           |✅    | Offer versioned tags for stability.|
+|Requirement                |Status|Details|
+|---------------------------|:----:|-------|
+|Don't run as root          |✅    | Never run as root unless necessary.|
+|Transparent build process  |✅    | For verifying that the container matches the code. See GitLab CI. |
+|Official base image        |✅    | |
+|Drop extra CAPabilities    |✅    | See ```docker-compose.yml``` |
+|No default passwords       |✅    | No static default passwords. That would make the container insecure by default. |
+|Support secrets-files      |❌    | (TODO) Support providing e.g. passwords via files instead of environment variables. |
+|Handle signals properly    |✅    | |
+|Simple Dockerfile          |✅    | No overextending the container's responsibilities. And keep everything in the Dockerfile if reasonable. |
+|Versioned tags             |✅    | Offer versioned tags for stability.|
 
 ## Running this container
 This container contains Quassel Core. 

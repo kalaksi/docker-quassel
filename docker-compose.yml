@@ -1,7 +1,9 @@
 version: '2'
 services:
   quassel-core:
-    image: kalaksi/quassel
+    image: docker.io/kalaksi/quassel
+    # You can also use GitLab as an alternative to Docker Hub:
+    # image: registry.gitlab.com/kalaksi-containers/quassel
     restart: unless-stopped
     ports:
       - 4242:4242/tcp
