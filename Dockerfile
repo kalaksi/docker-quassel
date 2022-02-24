@@ -1,7 +1,7 @@
-# Copyright (c) 2018 kalaksi@users.noreply.github.com.
+# Copyright (c) 2022 kalaksi@users.noreply.github.com.
 # This work is licensed under the terms of the MIT license. For a copy, see <https://opensource.org/licenses/MIT>.
 
-FROM alpine:3.11.13 AS base
+FROM alpine:3.15.0 AS base
 
 LABEL maintainer="kalaksi@users.noreply.github.com"
 # Use a custom UID/GID instead of the default system UID which has a greater possibility
@@ -28,7 +28,7 @@ ENV DB_PGSQL_PORT="5432"
 ENV DB_PGSQL_DATABASE="quassel"
 
 FROM base AS builder
-ARG QUASSEL_VERSION="0.13.1"
+ARG QUASSEL_VERSION="0.14.0"
 RUN apk add --no-cache --virtual=build-deps  \
       git \
       gcc \
@@ -54,10 +54,9 @@ RUN cd /tmp && \
     mkdir build && \
     mkdir config sqlite-data && \
     cd build && \
-    # Thanks goes out to JustJanne for providing an example of hardening the build!
-    # I won't be utilizing all of the possible hardening flags here, though, since that would
-    # probably need more extensive testing between releases.
-    CXXFLAGS="-D_FORTIFY_SOURCE=2 -fstack-protector-strong -fPIE -pie" cmake .. \
+    # Thanks goes out to JustJanne for providing an example of hardening the build.
+    CXXFLAGS="-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fstack-protector-strong -fPIE -pie -Wl,-z,noexecstack -Wl,-z,now -Wl,-z,relro" \
+      cmake .. \
       -DCMAKE_INSTALL_PREFIX=/opt/quassel \
       -DWANT_CORE=ON \
       -DWANT_QTCLIENT=OFF \
@@ -91,4 +90,3 @@ USER ${QUASSEL_UID}:${QUASSEL_GID}
 VOLUME ["/opt/quassel/config", "/opt/quassel/sqlite-data"]
 ENTRYPOINT ["/opt/quassel/bin/quasselcore", "--configdir=/opt/quassel/config"]
 CMD ["--config-from-environment", "--strict-ident"]
-
