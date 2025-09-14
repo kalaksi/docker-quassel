@@ -28,8 +28,11 @@ This container contains Quassel Core.
 See ```docker-compose.yml``` in the source repository for details on how to run this container.
 
 ## Configuration
-Configuration happens through environment variables. 
-See ```Dockerfile``` and ```docker-compose.yml``` (<https://github.com/kalaksi/docker-quassel>) for usable environment variables.
+Configuration happens through environment variables. See `docker-compose.yml` for more information.  
+NOTE: for first run, you'll need to temporarily omit `--config-from-environment` or setup wizard won't launch.  
+See ```Dockerfile``` and ```docker-compose.yml``` (<https://github.com/kalaksi/docker-quassel>) for usable environment variables.  
+For setting up PostgreSQL, see: https://bugs.quassel-irc.org/projects/1/wiki/PostgreSQL
+
 
 ## Supported tags
 See the ```Tags``` tab on Docker Hub for specifics. Basically you have:

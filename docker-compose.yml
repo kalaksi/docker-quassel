@@ -1,46 +1,62 @@
-version: '2'
 services:
   quassel-core:
     image: docker.io/kalaksi/quassel
     # You can also use GitLab as an alternative to Docker Hub:
     # image: registry.gitlab.com/kalaksi-containers/quassel
     restart: unless-stopped
+    depends_on:
+      - quassel-db
     ports:
       - 4242:4242/tcp
       - 113:10113/tcp
     command:
+      # For more info, see: https://manpages.ubuntu.com/manpages/questing/man1/quassel.1.html#internal%20core%20options
+      # NOTE: when initially setting up quassel-core, comment out --config-from-environment temporarily for first run,
+      # so you can set the admin-user. Otherwise the initial setup wizard won't launch when connecting with quassel-client.
       - '--config-from-environment'
-      - '--configdir=/opt/quassel/config'
-      - '--port=4242'
       - '--ident-daemon'
       - '--ident-listen=::'
       - '--strict-ident'
-      - '--ssl-cert=/opt/quassel/config/YOUCERT.crt'
-      - '--ssl-key=/opt/quassel/config/YOURCERTKEY.key'
       - '--loglevel=Info'
+      # - '--ssl-cert=/opt/quassel/config/YOUCERT.crt'
+      # - '--ssl-key=/opt/quassel/config/YOURCERTKEY.key'
     volumes:
       - quassel_config:/opt/quassel/config
       # For LDAPS, if you're using self-signed certs, you'll need to mount additional certs.
       # My "ca-certificates" container can help with that.
       # - ca_certificates:/etc/ssl/certs:ro
     environment:
+      # See: https://manpages.ubuntu.com/manpages/questing/man1/quassel.1.html#environment
       # I seriously recommend PostgreSQL instead of SQLite
       DB_BACKEND: PostgreSQL
-      AUTH_AUTHENTICATOR: LDAP
-      AUTH_LDAP_HOSTNAME: ldaps://ldap.yourdomain.invalid
-      AUTH_LDAP_PORT: '636'
-      AUTH_LDAP_BIND_DN: cn=XXX,dc=YOURDOMAIN,dc=INVALID
-      AUTH_LDAP_BIND_PASSWORD: XXX
-      AUTH_LDAP_BASE_DN: ou=XXX,ou=XXX,dc=YOURDOMAIN,dc=INVALID
-      AUTH_LDAP_FILTER: (memberOf=cn=XXX,ou=XXX,ou=XXX,dc=YOURDOMAIN,dc=INVALID)
-      AUTH_LDAP_UID_ATTRIBUTE: cn
       DB_PGSQL_USERNAME: quassel
-      DB_PGSQL_PASSWORD: XXX
-      DB_PGSQL_HOSTNAME: localhost
+      # NOTE: Set and uncomment, should be same as POSTGRES_PASSWORD in quassel-db-container.
+      # DB_PGSQL_PASSWORD: XXX
+      DB_PGSQL_HOSTNAME: quassel-db 
       DB_PGSQL_PORT: '5432'
       DB_PGSQL_DATABASE: quassel
+      # Uncomment if using LDAP auth:
+      # AUTH_AUTHENTICATOR: LDAP
+      # AUTH_LDAP_HOSTNAME: ldaps://ldap.yourdomain.invalid
+      # AUTH_LDAP_PORT: '636'
+      # AUTH_LDAP_BIND_DN: cn=XXX,dc=YOURDOMAIN,dc=INVALID
+      # AUTH_LDAP_BIND_PASSWORD: XXX
+      # AUTH_LDAP_BASE_DN: ou=XXX,ou=XXX,dc=YOURDOMAIN,dc=INVALID
+      # AUTH_LDAP_FILTER: (memberOf=cn=XXX,ou=XXX,ou=XXX,dc=YOURDOMAIN,dc=INVALID)
+      # AUTH_LDAP_UID_ATTRIBUTE: cn
+  quassel-db:
+    image: docker.io/postgres:15
+    environment:
+      # quassel-user will manage the whole database since it's dedicated only to quassel.
+      POSTGRES_USER: quassel
+      # NOTE: Set and uncomment, should be same as DB_PGSQL_PASSWORD in quassel-container.
+      # POSTGRES_PASSWORD: XXX  
+      POSTGRES_DB: quassel 
+    volumes:
+      - quassel_db_data:/var/lib/postgresql/data
 
 volumes:
   quassel_config: {}
+  quassel_db_data: {}
   # ca_certificates:
   #   external: true

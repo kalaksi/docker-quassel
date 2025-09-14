@@ -10,7 +10,7 @@ ENV QUASSEL_UID="62643"
 ENV QUASSEL_GID="62643"
 
 # You probably will want to configure some of these variables.
-# See: https://manpages.ubuntu.com/manpages/disco/man1/quassel.1.html#environment
+# See: https://manpages.ubuntu.com/manpages/questing/man1/quassel.1.html#environment
 ENV QUASSEL_USE_TLS "false"
 ENV DB_BACKEND="SQLite"
 ENV AUTH_AUTHENTICATOR="Database"
@@ -88,5 +88,5 @@ EXPOSE 4242/tcp 10113/tcp
 
 USER ${QUASSEL_UID}:${QUASSEL_GID}
 VOLUME ["/opt/quassel/config", "/opt/quassel/sqlite-data"]
-ENTRYPOINT ["/opt/quassel/bin/quasselcore", "--configdir=/opt/quassel/config"]
+ENTRYPOINT ["/opt/quassel/bin/quasselcore", "--configdir=/opt/quassel/config", "--port=4242"]
 CMD ["--config-from-environment", "--strict-ident"]
