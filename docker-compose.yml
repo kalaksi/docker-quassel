@@ -11,8 +11,8 @@ services:
       - 113:10113/tcp
     command:
       # For more info, see: https://manpages.ubuntu.com/manpages/questing/man1/quassel.1.html#internal%20core%20options
-      # NOTE: if you're setting up quassel-core for the first time, comment out --config-from-environment temporarily.
-      # Otherwise the initial setup wizard won't launch and you won't be able to create the admin-user. 
+      # NOTE: For adding users, you can do:
+      # docker compose run quassel-core --config-from-environment --add-user
       - '--config-from-environment'
       - '--ident-daemon'
       - '--ident-listen=::'
