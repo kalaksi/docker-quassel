@@ -29,7 +29,7 @@ See ```docker-compose.yml``` in the source repository for details on how to run 
 
 ## Configuration
 Configuration happens through environment variables. See `docker-compose.yml` for more information.  
-For adding users, you can do e.g. `docker compose run quassel-core --config-from-environment --add-user`.  
+For adding users, you can do e.g. `docker compose run --rm quassel-core --config-from-environment --add-user`.  
   
 See ```Dockerfile``` and ```docker-compose.yml``` (<https://github.com/kalaksi/docker-quassel>) for usable environment variables.  
 For setting up PostgreSQL, see: https://bugs.quassel-irc.org/projects/1/wiki/PostgreSQL

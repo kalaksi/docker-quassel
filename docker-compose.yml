@@ -12,7 +12,7 @@ services:
     command:
       # For more info, see: https://manpages.ubuntu.com/manpages/questing/man1/quassel.1.html#internal%20core%20options
       # NOTE: For adding users, you can do:
-      # docker compose run quassel-core --config-from-environment --add-user
+      # docker compose run --rm quassel-core --config-from-environment --add-user
       - '--config-from-environment'
       - '--ident-daemon'
       - '--ident-listen=::'
