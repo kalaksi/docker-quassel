@@ -67,7 +67,7 @@ RUN cd /tmp && \
       -DWITH_WEBKIT=OFF \
       -DEMBED_DATA=OFF \
       -DCMAKE_BUILD_TYPE=Release && \
-    make && \
+    make -j2 && \
     make install
 
 # Leverage multi-stage building to remove the building layers and make the final image smaller.
