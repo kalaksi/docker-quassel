@@ -29,6 +29,8 @@ ENV DB_PGSQL_DATABASE="quassel"
 
 FROM base AS builder
 ARG QUASSEL_VERSION="0.14.0"
+# QEMU user-mode ignores setrlimit; enlarge stack so cc1plus does not segfault on arm64.
+ENV QEMU_STACK_SIZE=64M
 RUN apk add --no-cache --virtual=build-deps  \
       git \
       gcc \
@@ -67,7 +69,7 @@ RUN cd /tmp && \
       -DWITH_WEBKIT=OFF \
       -DEMBED_DATA=OFF \
       -DCMAKE_BUILD_TYPE=Release && \
-    make -j1 && \
+    make -j2 && \
     make install
 
 # Leverage multi-stage building to remove the building layers and make the final image smaller.
